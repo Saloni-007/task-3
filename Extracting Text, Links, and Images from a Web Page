@@ -1,0 +1,43 @@
+import requests
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin
+
+# URL of the web page
+url = 'https://example.com'  # Replace with the actual URL of the page
+
+# Send an HTTP request and get the HTML content
+response = requests.get(url)
+html_content = response.text
+
+# Parse the HTML content
+soup = BeautifulSoup(html_content, 'html.parser')
+
+# Extract main text content from paragraphs
+paragraphs = soup.find_all('p')
+text_content = '\n'.join([p.text.strip() for p in paragraphs])
+
+print("Text Content:")
+print(text_content)
+print()
+
+# Extract links and their associated URLs
+links = soup.find_all('a')
+extracted_links = []
+for link in links:
+    href = link.get('href')
+    if href:
+        full_url = urljoin(url, href)  # Resolve relative URLs
+        extracted_links.append(full_url)
+
+print("Extracted Links:")
+for link in extracted_links:
+    print(link)
+print()
+
+# Extract image URLs
+images = soup.find_all('img')
+image_urls = [urljoin(url, img.get('src')) for img in images if img.get('src')]
+
+print("Image URLs:")
+for image_url in image_urls:
+    print(image_url)
