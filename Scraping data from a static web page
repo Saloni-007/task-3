@@ -1,0 +1,19 @@
+import requests
+from bs4 import BeautifulSoup
+
+# URL of the web page to scrape
+url = "(link unavailable)"
+
+# Send a GET request to the URL
+response = requests.get(url)
+
+# Parse the HTML content of the page with BeautifulSoup
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# Find the specific data you want to scrape
+# For example, let's scrape all the headings on the page
+headings = soup.find_all('h1')
+
+# Print the scraped data
+for heading in headings:
+    print(heading.text)
